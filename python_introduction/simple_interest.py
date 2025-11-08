@@ -1,10 +1,10 @@
-#Defining the variables
-principal = 1000 #representing $1000
-rate = 5 #representing 5% annual interest rate
-time = 3 #representing 3 years
+# Defining variables
+principal = 1000
+rate = 0.05
+time = 3
 
-#Calculating simple interest
-simple_interest = (principal * rate * time) / 100
+# Calculating simple interest
+interest = principal * rate * time
 
-#Printing the result
-print(f"The simple interest is: {simple_interest}")
+# Printing the result
+print(f"The simple interest is: {interest}")
