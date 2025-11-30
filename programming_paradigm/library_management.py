@@ -1,30 +1,58 @@
-FAHRENHEIT_TO_CELSIUS_FACTOR = 5/9
-CELSIUS_TO_FAHRENHEIT_FACTOR = 9/5
+class Book:
+    """Represents a book with a title, author, and availability."""
 
-def convert_to_celsius(fahrenheit):
-    return (fahrenheit - 32) * FAHRENHEIT_TO_CELSIUS_FACTOR
+    def __init__(self, title, author):
+        self.title = title
+        self.author = author
+        self._is_checked_out = False  # Private-like attribute
 
-def convert_to_fahrenheit(celsius):
-    return (celsius * CELSIUS_TO_FAHRENHEIT_FACTOR) + 32
+    def check_out(self):
+        """Mark the book as checked out."""
+        if not self._is_checked_out:
+            self._is_checked_out = True
+            return True
+        return False
 
-def main():
-    temp_input = input("Enter the temperature to convert: ")
+    def return_book(self):
+        """Mark the book as returned."""
+        if self._is_checked_out:
+            self._is_checked_out = False
+            return True
+        return False
 
-    try:
-        temperature = float(temp_input)
-    except ValueError:
-        raise ValueError("Invalid temperature. Please enter a numeric value.")
+    def is_available(self):
+        """Return True if the book is available."""
+        return not self._is_checked_out
 
-    unit = input("Is this temperature in Celsius or Fahrenheit? (C/F): ").strip().upper()
 
-    if unit == "F":
-        result = convert_to_celsius(temperature)
-        print(f"{temperature}°F is {result}°C")
-    elif unit == "C":
-        result = convert_to_fahrenheit(temperature)
-        print(f"{temperature}°C is {result}°F")
-    else:
-        print("Invalid unit. Please enter 'C' for Celsius or 'F' for Fahrenheit.")
+class Library:
+    """A library that stores and manages a collection of books."""
 
-if __name__ == "__main__":
-    main()
+    def __init__(self):
+        self._books = []  # Private-like list of Book objects
+
+    def add_book(self, book):
+        """Add a Book instance to the library."""
+        self._books.append(book)
+
+    def check_out_book(self, title):
+        """Check out a book by title if it is available."""
+        for book in self._books:
+            if book.title == title and book.is_available():
+                book.check_out()
+                return True
+        return False
+
+    def return_book(self, title):
+        """Return a book by title if it is currently checked out."""
+        for book in self._books:
+            if book.title == title and not book.is_available():
+                book.return_book()
+                return True
+        return False
+
+    def list_available_books(self):
+        """Print all available books in the library."""
+        for book in self._books:
+            if book.is_available():
+                print(f"{book.title} by {book.author}")
